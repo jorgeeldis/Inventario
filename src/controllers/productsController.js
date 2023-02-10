@@ -10,7 +10,7 @@ controller.list = (req, res) => {
         }
 
         res.render("products", {
-          data: products,
+          data: products, 
         });
       }
     );
