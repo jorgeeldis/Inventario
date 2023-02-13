@@ -2,15 +2,43 @@ const controller = {};
 
 controller.list = (req, res) => {
   req.getConnection((err, conn) => {
-    conn.query(
-      "SELECT id, name, model, description, price, date, store, quantity, project_id FROM products",
+    conn.query("SELECT id, name, model, description, price, date, store, quantity, project_id FROM products",
       (err, products) => {
         if (err) {
           res.json(err);
         }
 
+        conn.query("SELECT id, name, description FROM projects",
+          (err, projects) => {
+            if (err) {
+              res.json(err);
+            }
+
+            res.render("products", {
+              data: products,
+              dataprojects: projects,
+            });
+
+          }
+        )
+
+
+      }
+    );
+  });
+};
+
+controller.projects = (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query(
+      "SELECT id, name, description FROM projects",
+      (err, projects) => {
+        if (err) {
+          res.json(err);
+        }
+
         res.render("products", {
-          data: products, 
+          dataprojects: projects,
         });
       }
     );
@@ -30,21 +58,30 @@ controller.save = (req, res) => {
   let quantity = data.quantity;
   let project_id = data.project_id;
 
-  req.getConnection((err, conn) => {
-    conn.query(
-      `insert into products (name, model, description, price, date, store, quantity, project_id) values (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [name, model, description, price, date, store, quantity, project_id],
-      (err, products) => {
+  console.log("project_id", project_id);
 
-        if(err){
-          console.error('ERROR:', err);
-          res.json(err)
+  if (project_id === "-1") {
+    res.redirect('/?alert=true');
+  }
+  else {
+    req.getConnection((err, conn) => {
+      conn.query(
+        `insert into products (name, model, description, price, date, store, quantity, project_id) values (?, ?, ?, ?, ?, ?, ?, ?)`,
+        [name, model, description, price, date, store, quantity, project_id],
+        (err, products) => {
+          if (err) {
+            console.error("ERROR:", err);
+            res.json(err);
+          }
+          res.send("works");
+          console.log(products);
         }
-        res.send("works");
-        console.log(products);
-      } 
-    );
-  })
+      );
+    });
+
+  }
+
+
 };
 
 module.exports = controller;
