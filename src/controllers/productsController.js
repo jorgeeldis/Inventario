@@ -1,14 +1,18 @@
+const { request } = require("express");
+
 const controller = {};
 
 controller.list = (req, res) => {
   req.getConnection((err, conn) => {
-    conn.query("SELECT id, name, model, description, price, date, store, quantity, project_id FROM products",
+    conn.query(
+      "SELECT id, name, model, description, price, date, store, quantity, project_id FROM products",
       (err, products) => {
         if (err) {
           res.json(err);
         }
 
-        conn.query("SELECT id, name, description FROM projects",
+        conn.query(
+          "SELECT id, name, description FROM projects",
           (err, projects) => {
             if (err) {
               res.json(err);
@@ -18,11 +22,8 @@ controller.list = (req, res) => {
               data: products,
               dataprojects: projects,
             });
-
           }
-        )
-
-
+        );
       }
     );
   });
@@ -61,9 +62,8 @@ controller.save = (req, res) => {
   console.log("project_id", project_id);
 
   if (project_id === "-1") {
-    res.redirect('/?alert=true');
-  }
-  else {
+    res.redirect("/?alert=true");
+  } else {
     req.getConnection((err, conn) => {
       conn.query(
         `insert into products (name, model, description, price, date, store, quantity, project_id) values (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -73,15 +73,66 @@ controller.save = (req, res) => {
             console.error("ERROR:", err);
             res.json(err);
           }
-          res.send("works");
+          res.redirect("/");
           console.log(products);
         }
       );
     });
-
   }
+};
 
+controller.edit = (req, res) => {
+  const { id } = req.params;
+  req.getConnection((err, conn) => {
+    conn.query(
+      "SELECT id, name, model, description, price, date, store, quantity, project_id FROM products WHERE id = ?",
+      [id],
+      (err, product) => {
+        conn.query(
+          "SELECT id, name, description FROM projects",
+          (err, projects) => {
+            console.log(projects[0].name);
+            if (err) {
+              res.json(err);
+            }
+            res.render("products_edit", {
 
+              data: product[0],
+              dataprojects: projects,
+            });
+          }
+        );
+      }
+    );
+  });
+};
+
+controller.update = (req, res) => {
+  const { id } = req.params;
+  const newProduct = req.body;
+  req.getConnection((err, conn) => 
+  {
+     conn.query(
+       "UPDATE products set ? where id = ?",
+       [newProduct, id],
+       (err, rows) => {
+         
+         console.log(newProduct, id);
+         res.redirect("/");
+       }
+     );
+  })
+  
+};
+
+controller.delete = (req, res) => {
+  const { id } = req.params;
+
+  req.getConnection((err, conn) => {
+    conn.query("DELETE FROM products WHERE id = ?", [id], (err, rows) => {
+      res.redirect("/");
+    });
+  });
 };
 
 module.exports = controller;

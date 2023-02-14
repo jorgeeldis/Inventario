@@ -1,0 +1,54 @@
+<%- include('./partials/_headers'); %>
+
+    <div class="container mt-5">
+        <div class="row-sm">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/update/<%- data.id %>" method="post">
+                            <div class="form-group">
+                                <input type="text" name="name" value="<%- data.name %>" class="form-control" required />
+                            </div>
+                            <div class="form-group pt-2">
+                                <input type="text" name="model" value="<%- data.model %>" class="form-control" required/>
+                            </div>
+                            <div class="form-group pt-2">
+                                <input type="text" value="<%- data.description %>" name="description" required
+                                    class="form-control" />
+                            </div>
+                            <div class="form-group pt-2">
+                                <input type="number" step="0.01" name="price" value="<%- data.price %>" required
+                                    class="form-control" />
+                            </div>
+                            <div class="form-group pt-2">
+                                <input type="text" name="date" placeholder="YYYY-MM-DD" value="<%- data.date.toISOString().split('T')[0] %>" class="form-control" required/>
+                            </div>
+                            <div class="form-group pt-2">
+                                <input type="text" name="store" value="<%- data.store %>" class="form-control" required/>
+                            </div>
+                            <div class="form-group pt-2">
+                                <input type="number" name="quantity" value="<%- data.quantity %>" required
+                                    class="form-control" />
+                            </div>
+                            <div class="form-group pt-2 pb-2">
+                                <select id="project_id" name="project_id" required class="form-select">
+                                    <option selected></option>
+                                    <% for ( let i=0; i < dataprojects.length; i++ ) { %>
+                                        <option value="<%=dataprojects[i].id %>">
+                                            <%= dataprojects[i].name %>
+                                        </option>
+                                        <% } %>
+                                </select>
+                            </div>
+
+            
+
+                            <button type="submit" class="btn btn-primary">Update product</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/_footer'); %>
