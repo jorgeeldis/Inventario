@@ -5,7 +5,9 @@ const controller = {};
 controller.list = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
-      "SELECT id, name, model, description, price, date, store, quantity, project_id FROM products",
+      `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description
+from products prd 
+inner join projects pj on (pj.id=prd.project_id);`,
       (err, products) => {
         if (err) {
           res.json(err);
@@ -110,19 +112,18 @@ controller.edit = (req, res) => {
 controller.update = (req, res) => {
   const { id } = req.params;
   const newProduct = req.body;
-  req.getConnection((err, conn) => 
-  {
-     conn.query(
-       "UPDATE products set ? where id = ?",
-       [newProduct, id],
-       (err, rows) => {
-         
-         console.log(newProduct, id);
-         res.redirect("/");
-       }
-     );
+  req.getConnection((err, conn) => {
+    conn.query(
+      "UPDATE products set ? where id = ?",
+      [newProduct, id],
+      (err, rows) => {
+
+        console.log(newProduct, id);
+        res.redirect("/");
+      }
+    );
   })
-  
+
 };
 
 controller.delete = (req, res) => {

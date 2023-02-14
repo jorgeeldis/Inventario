@@ -31,7 +31,7 @@
                                     class="form-control" />
                             </div>
                             <div class="form-group pt-2 pb-2">
-                                <select id="project_id" name="project_id" required class="form-select">
+                                <select id="project_id" name="project_id" value="project_id" required class="form-select">
                                     <option selected>Choose a project</option>
                                     <% for ( let i=0; i < dataprojects.length; i++ ) { %>
                                         <option value="<%=dataprojects[i].id %>">
@@ -40,9 +40,6 @@
                                         <% } %>
                                 </select>
                             </div>
-
-            
-
                             <button type="submit" class="btn btn-primary">Update product</button>
                         </form>
                     </div>
