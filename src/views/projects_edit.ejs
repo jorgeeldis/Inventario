@@ -1,0 +1,26 @@
+<%- include('./partials/_headers'); %>
+
+    <div class="container mt-5">
+        <div class="row-sm">
+            <div class="col-sm">
+                <div class="card">
+                    <div class="card-body">
+                        <form action="/updateproject/<%- dataprojects.id %>" method="post">
+                            <div class="form-group">
+                                <input type="text" name="name" value="<%- dataprojects.name %>" class="form-control" required />
+                            </div>
+    
+                            <div class="form-group pt-2">
+                                <input type="text" value="<%- dataprojects.description %>" name="description" required
+                                    class="form-control" />
+                            </div>
+    
+                            <button type="submit" class="btn btn-primary">Update product</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('./partials/_footer'); %>

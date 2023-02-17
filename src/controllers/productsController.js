@@ -123,6 +123,29 @@ controller.save = (req, res) => {
   }
 };
 
+controller.addproject = (req, res) => {
+  console.log(req.body);
+  const data = req.body;
+
+  let name = data.name;
+  let description = data.description;
+
+    req.getConnection((err, conn) => {
+      conn.query(
+        `insert into projects (name, description) values (?, ?)`,
+        [name, description],
+        (err, products) => {
+          if (err) {
+            console.error("ERROR:", err);
+            res.json(err);
+          }
+          res.redirect("/projectslist");
+          console.log(products);
+        }
+      );
+    });
+  };
+
 controller.editproduct = (req, res) => {
   const { id } = req.params;
   req.getConnection((err, conn) => {
@@ -149,6 +172,31 @@ controller.editproduct = (req, res) => {
   });
 };
 
+controller.editproject = (req, res) => {
+  const { id } = req.params;
+  req.getConnection((err, conn) => {
+    conn.query(
+      "SELECT id, name, model, description, price, date, store, quantity, project_id FROM products WHERE id = ?",
+      [id],
+      (err, product) => {
+        conn.query(
+          "SELECT id, name, description FROM projects",
+          (err, projects) => {
+            console.log(projects[0].name);
+            if (err) {
+              res.json(err);
+            }
+            res.render("products_edit", {
+              data: product[0],
+              dataprojects: projects,
+            });
+          }
+        );
+      }
+    );
+  });
+};
+
 controller.updateproduct = (req, res) => {
   const { id } = req.params;
   const newProduct = req.body;
@@ -157,13 +205,26 @@ controller.updateproduct = (req, res) => {
       "UPDATE products set ? where id = ?",
       [newProduct, id],
       (err, rows) => {
-
         console.log(newProduct, id);
         res.redirect("/");
       }
     );
   })
+};
 
+controller.updateproject = (req, res) => {
+  const { id } = req.params;
+  const newProject = req.body;
+  req.getConnection((err, conn) => {
+    conn.query(
+      "UPDATE projects set ? where id = ?",
+      [newProject, id],
+      (err, rows) => {
+        console.log(newProject, id);
+        res.redirect("/projectslist");
+      }
+    );
+  });
 };
 
 controller.deleteproduct = (req, res) => {
@@ -172,6 +233,16 @@ controller.deleteproduct = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query("DELETE FROM products WHERE id = ?", [id], (err, rows) => {
       res.redirect("/");
+    });
+  });
+};
+
+controller.deleteproject = (req, res) => {
+  const { id } = req.params;
+
+  req.getConnection((err, conn) => {
+    conn.query("DELETE FROM projects WHERE id = ?", [id], (err, rows) => {
+      res.redirect("/projectslist");
     });
   });
 };
