@@ -42,6 +42,19 @@ inner join projects pj on (pj.id=prd.project_id);`,
           res.json(err);
         }
 
+            res.render("productslist", {
+              data: products,
+
+            });
+          }
+        );
+      }
+    );
+  };
+
+controller.projectslist = (req, res) => {
+  req.getConnection((err, conn) => {
+
         conn.query(
           "SELECT id, name, description FROM projects",
           (err, projects) => {
@@ -49,16 +62,14 @@ inner join projects pj on (pj.id=prd.project_id);`,
               res.json(err);
             }
 
-            res.render("productslist", {
-              data: products,
+            res.render("projectslist", {
               dataprojects: projects,
             });
           }
         );
       }
     );
-  });
-};
+  };
 
 controller.projects = (req, res) => {
   req.getConnection((err, conn) => {

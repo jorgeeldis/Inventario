@@ -7,6 +7,8 @@ router.get("/", productsController.list);
 
 router.get("/productslist", productsController.productslist);
 
+router.get("/projectslist", productsController.projectslist);
+
 router.get("/projects", productsController.projects);
 
 router.get('/delete/:id', productsController.delete);
