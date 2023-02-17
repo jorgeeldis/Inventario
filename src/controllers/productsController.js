@@ -166,7 +166,7 @@ controller.updateproduct = (req, res) => {
 
 };
 
-controller.delete = (req, res) => {
+controller.deleteproduct = (req, res) => {
   const { id } = req.params;
 
   req.getConnection((err, conn) => {

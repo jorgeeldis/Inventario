@@ -11,7 +11,7 @@ router.get("/projectslist", productsController.projectslist);
 
 router.get("/projects", productsController.projects);
 
-router.get('/delete/:id', productsController.delete);
+router.get('/deleteproduct/:id', productsController.deleteproduct);
 
 router.get("/updateproduct/:id", productsController.editproduct);
 
