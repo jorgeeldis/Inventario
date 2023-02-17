@@ -123,7 +123,7 @@ controller.save = (req, res) => {
   }
 };
 
-controller.edit = (req, res) => {
+controller.editproduct = (req, res) => {
   const { id } = req.params;
   req.getConnection((err, conn) => {
     conn.query(
@@ -149,7 +149,7 @@ controller.edit = (req, res) => {
   });
 };
 
-controller.update = (req, res) => {
+controller.updateproduct = (req, res) => {
   const { id } = req.params;
   const newProduct = req.body;
   req.getConnection((err, conn) => {
