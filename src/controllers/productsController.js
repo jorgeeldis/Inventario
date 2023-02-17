@@ -31,6 +31,35 @@ inner join projects pj on (pj.id=prd.project_id);`,
   });
 };
 
+controller.productslist = (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query(
+      `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
+from products prd 
+inner join projects pj on (pj.id=prd.project_id);`,
+      (err, products) => {
+        if (err) {
+          res.json(err);
+        }
+
+        conn.query(
+          "SELECT id, name, description FROM projects",
+          (err, projects) => {
+            if (err) {
+              res.json(err);
+            }
+
+            res.render("productslist", {
+              data: products,
+              dataprojects: projects,
+            });
+          }
+        );
+      }
+    );
+  });
+};
+
 controller.projects = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
