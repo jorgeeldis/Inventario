@@ -4,13 +4,18 @@
         <div class="row-sm">
             <div class="col-sm">
                 <div class="card">
+                    <div class="card-header">
+                        <strong><i class="fa-light fa-scanner-gun"></i>Editar Producto</strong>
+                    </div>
+
                     <div class="card-body">
                         <form action="/updateproduct/<%- data.id %>" method="post">
                             <div class="form-group">
                                 <input type="text" name="name" value="<%- data.name %>" class="form-control" required />
                             </div>
                             <div class="form-group pt-2">
-                                <input type="text" name="model" value="<%- data.model %>" class="form-control" required/>
+                                <input type="text" name="model" value="<%- data.model %>" class="form-control"
+                                    required />
                             </div>
                             <div class="form-group pt-2">
                                 <input type="text" value="<%- data.description %>" name="description" required
@@ -21,20 +26,25 @@
                                     class="form-control" />
                             </div>
                             <div class="form-group pt-2">
-                                <input type="text" name="date" placeholder="YYYY-MM-DD" value="<%- data.date.toISOString().split('T')[0] %>" class="form-control" required/>
+                                <input type="text" name="date" placeholder="YYYY-MM-DD"
+                                    value="<%- data.date.toISOString().split('T')[0] %>" class="form-control"
+                                    required />
                             </div>
                             <div class="form-group pt-2">
-                                <input type="text" name="store" value="<%- data.store %>" class="form-control" required/>
+                                <input type="text" name="store" value="<%- data.store %>" class="form-control"
+                                    required />
                             </div>
                             <div class="form-group pt-2">
                                 <input type="number" name="quantity" value="<%- data.quantity %>" required
                                     class="form-control" />
                             </div>
                             <div class="form-group pt-2 pb-2">
-                                <select id="project_id" name="project_id" value="<%- data.project_name %>" required class="custom-select">
+                                <select id="project_id" name="project_id" value="<%- data.project_name %>" required
+                                    class="custom-select">
                                     <option selected required>Choose a project</option>
-                                    <% for ( let i=0; i < dataprojects.length; i++ ) { %>
-                                        <option value="<%=dataprojects[i].id %>">
+                                    <% for ( let i=0; i < dataprojects.length; i++ ) { var selected=(
+                                        dataprojects[i].id===data.project_id ) ? "selected" : "" ; %>
+                                        <option value="<%=dataprojects[i].id %>" <%=selected %>>
                                             <%= dataprojects[i].name %>
                                         </option>
                                         <% } %>

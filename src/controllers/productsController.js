@@ -175,27 +175,21 @@ controller.editproduct = (req, res) => {
 controller.editproject = (req, res) => {
   const { id } = req.params;
   req.getConnection((err, conn) => {
-    conn.query(
-      "SELECT id, name, model, description, price, date, store, quantity, project_id FROM products WHERE id = ?",
-      [id],
-      (err, product) => {
         conn.query(
-          "SELECT id, name, description FROM projects",
+          "SELECT id, name, description FROM projects WHERE id = ?", [id],
           (err, projects) => {
             console.log(projects[0].name);
             if (err) {
               res.json(err);
             }
-            res.render("products_edit", {
-              data: product[0],
-              dataprojects: projects,
+            res.render("projects_edit", {
+              dataprojects: projects[0],
             });
           }
         );
       }
     );
-  });
-};
+  }
 
 controller.updateproduct = (req, res) => {
   const { id } = req.params;

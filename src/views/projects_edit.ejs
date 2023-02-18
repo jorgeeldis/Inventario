@@ -7,16 +7,16 @@
                     <div class="card-body">
                         <form action="/updateproject/<%- dataprojects.id %>" method="post">
                             <div class="form-group">
-                                <input type="text" name="name" value="<%- dataprojects.name %>" class="form-control" required />
+                                <input type="text" name="name" value="<%- dataprojects.name %>" class="form-control" placeholder="Name" required />
                             </div>
     
                             <div class="form-group pt-2">
-                                <input type="text" value="<%- dataprojects.description %>" name="description" required
+                                <input type="text" value="<%- dataprojects.description %>" name="description" placeholder="Description" required
                                     class="form-control" />
                             </div>
     
                             <button type="submit" class="btn btn-primary">Update product</button>
-                        </form>
+                        </form> 
                     </div>
                 </div>
             </div>
