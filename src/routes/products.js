@@ -5,6 +5,8 @@ const productsController = require("../controllers/productsController");
 
 router.get("/", productsController.list);
 
+router.get("/dashboard", productsController.dashboard)
+
 router.get("/productslist", productsController.productslist);
 
 router.get("/projectslist", productsController.projectslist);
