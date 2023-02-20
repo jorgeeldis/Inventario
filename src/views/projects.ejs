@@ -1,0 +1,60 @@
+<%- include('./partials/_headers'); %>
+
+  <div class="container-fluid">
+    <div class="row mt-5">
+      <div class="col-sm">
+        <div style="overflow-y: auto;">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>N°</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          <% if (dataprojects) { %>
+            <% for (let i = 0; i < dataprojects.length; i++) { %>
+              <tr>
+                <td><%- (i + 1) %></td>
+                <td><%- dataprojects[i].name%></td>
+                <td><%- dataprojects[i].description%></td>
+                <td>               
+                  <a href="/updateproject/<%- dataprojects[i].id %>" class="btn btn-info btn-block">Update</a>
+                </td>
+              </tr>
+            <% } %>
+            <% } %>
+          </tbody>
+        </table>
+        <a
+                  href="/projectslist"
+                  class="btn btn-primary btn-block"
+                  >See More</a>
+      </div>
+      </div>
+      <div class="col-sm"> 
+        <div class="card">
+          <div class="card-header">
+    <strong>Add Project</strong>
+  </div>
+          <div class="card-body">
+            <form action="/addproject" method="post">
+              <div class="form-group">
+                <input type="text" name="name" placeholder="Name" class="form-control" required />
+              </div>
+              <div class="form-group pt-2">
+                <input type="text" name="description" placeholder="Description" class="form-control" required />
+              </div>
+              
+              <button type="submit" class="btn btn-primary">Add project</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+      </div>
+      </div>
+
+  <%- include('./partials/_footer'); %>

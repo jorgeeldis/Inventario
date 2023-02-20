@@ -2,7 +2,7 @@ const { request } = require("express");
 
 const controller = {};
 
-controller.list = (req, res) => {
+controller.products = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
       `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
@@ -101,6 +101,23 @@ controller.productslist = (req, res) => {
   });
 };
 
+controller.projects = (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query(
+      "SELECT id, name, description FROM projects",
+      (err, projects) => {
+        if (err) {
+          res.json(err);
+        }
+
+        res.render("projects", {
+          dataprojects: projects,
+        });
+      }
+    );
+  });
+};
+
 controller.projectslist = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
@@ -111,23 +128,6 @@ controller.projectslist = (req, res) => {
         }
 
         res.render("projectslist", {
-          dataprojects: projects,
-        });
-      }
-    );
-  });
-};
-
-controller.projects = (req, res) => {
-  req.getConnection((err, conn) => {
-    conn.query(
-      "SELECT id, name, description FROM projects",
-      (err, projects) => {
-        if (err) {
-          res.json(err);
-        }
-
-        res.render("products", {
           dataprojects: projects,
         });
       }
@@ -267,7 +267,7 @@ controller.updateproject = (req, res) => {
   });
 };
 
-controller.deleteproduct = (req, res) => {
+/* controller.deleteproduct = (req, res) => {
   const { id } = req.params;
 
   req.getConnection((err, conn) => {
@@ -286,5 +286,5 @@ controller.deleteproject = (req, res) => {
     });
   });
 };
-
+ */
 module.exports = controller;
