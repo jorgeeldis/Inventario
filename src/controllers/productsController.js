@@ -8,7 +8,7 @@ controller.products = (req, res) => {
       `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
       from products prd 
       inner join projects pj on (pj.id=prd.project_id)
-      order by id desc limit 0, 4;`,
+      order by id desc limit 0, 5;`,
       (err, products) => {
         if (err) {
           res.json(err);
@@ -52,14 +52,14 @@ controller.dashboard = (req, res) => {
             }
 
             conn.query(
-              "SELECT id, name, quantity, model FROM products where quantity > 0 and quantity < 3",
+              "SELECT id, name, quantity, model FROM products where quantity > 0 and quantity < 3 order by id desc limit 0, 4",
               (err, lowstock) => {
                 if (err) {
                   res.json(err);
                 }
 
                 conn.query(
-                  "SELECT id, name, quantity FROM products where quantity = 0",
+                  "SELECT id, name, quantity, model FROM products where quantity = 0 order by id desc limit 0, 4",
                   (err, outofstock) => {
                     if (err) {
                       res.json(err);
@@ -101,10 +101,50 @@ controller.productslist = (req, res) => {
   });
 };
 
+controller.lowstocklist = (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query(
+      `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
+      from products prd 
+      inner join projects pj on (pj.id=prd.project_id) where quantity > 0 and quantity < 3 order by id desc`
+      ,
+      (err, lowstock) => {
+        if (err) {
+          res.json(err);
+        }
+
+        res.render("lowstocklist", {
+          lowstock: lowstock,
+        });
+      }
+    );
+  });
+};
+
+controller.outofstocklist = (req, res) => {
+  req.getConnection((err, conn) => {
+    conn.query(
+      `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
+      from products prd 
+      inner join projects pj on (pj.id=prd.project_id) where quantity = 0 order by id desc`
+      ,
+      (err, outofstock) => {
+        if (err) {
+          res.json(err);
+        }
+
+        res.render("outofstocklist", {
+          outofstock: outofstock,
+        });
+      }
+    );
+  });
+};
+
 controller.projects = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
-      "SELECT id, name, description FROM projects",
+      "SELECT id, name, description FROM projects order by id desc limit 0, 5;",
       (err, projects) => {
         if (err) {
           res.json(err);

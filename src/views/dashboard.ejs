@@ -26,7 +26,7 @@
             <td>
 
               <a
-                href="/updateproduct/<%- data[i].id %>"
+                href="/updateproduct/<%- lowstock[i].id %>"
                 class="btn btn-info btn-block"
                 >Update</a
               >
@@ -35,9 +35,13 @@
           <% } %> <% } %>
         </tbody>
       </table>
+      <a
+                  href="/lowstocklist"
+                  class="btn btn-primary btn-block"
+                  >See More</a>
         </div>
         <div class="col-md-6">
-            <h3>Out of stock products:</h3>
+            <h3>Products out of stock:</h3>
             <table class="table table-bordered table-hover">
         <thead class="thead bg-danger">
           <tr>
@@ -52,14 +56,14 @@
           <% if (outofstock) { %> <% for (let i=0; i < outofstock.length; i++) { %>
           <tr>
             <td><%- (i + 1) %></td>
-            <td><%- data[i].name%></td>
-            <td><%- data[i].model%></td>
-            <td><%- data[i].quantity%></td>
+            <td><%- outofstock[i].name%></td>
+            <td><%- outofstock[i].model%></td>
+            <td><%- outofstock[i].quantity%></td>
 
             <td>
 
               <a
-                href="/updateproduct/<%- data[i].id %>"
+                href="/updateproduct/<%- outofstock[i].id %>"
                 class="btn btn-info btn-block"
                 >Update</a
               >
@@ -68,6 +72,10 @@
           <% } %> <% } %>
         </tbody>
       </table>
+      <a
+                  href="/outofstocklist"
+                  class="btn btn-primary btn-block"
+                  >See More</a>
         </div>
     </div>
 

@@ -11,6 +11,10 @@ router.get("/products", productsController.products);
 
 router.get("/productslist", productsController.productslist);
 
+router.get("/lowstocklist", productsController.lowstocklist);
+
+router.get("/outofstocklist", productsController.outofstocklist);
+
 router.get("/projects", productsController.projects);
 
 router.get("/projectslist", productsController.projectslist);

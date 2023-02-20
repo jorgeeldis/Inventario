@@ -4,7 +4,7 @@
     <div class="row mt-5">
       <div class="col-sm">
         <div style="overflow-y: auto;">
-          <h3>All products:</h3>
+            <h3>Products low on stock:</h3>
         <table class="table table-bordered table-hover">
           <thead class="thead-dark">
             <tr>
@@ -21,21 +21,21 @@
             </tr>
           </thead>
           <tbody>
-          <% if (data) { %>
-            <% for (let i = 0; i < data.length; i++) { %>
+          <% if (lowstock) { %>
+            <% for (let i = 0; i < lowstock.length; i++) { %>
               <tr>
                 <td><%- (i + 1) %></td>
-                <td><%- data[i].name%></td>
-                <td><%- data[i].model%></td>
-                <td><%- data[i].description%></td>
-                <td><%- data[i].price%> $</td>
-                <td><%- data[i].date.toISOString().split("T")[0]%></td>
-                <td><%- data[i].store%></td>
-                <td><%- data[i].quantity%></td>
-                <td><%- data[i].project_name%></td>
+                <td><%- lowstock[i].name%></td>
+                <td><%- lowstock[i].model%></td>
+                <td><%- lowstock[i].description%></td>
+                <td><%- lowstock[i].price%> $</td>
+                <td><%- lowstock[i].date.toISOString().split("T")[0]%></td>
+                <td><%- lowstock[i].store%></td>
+                <td><%- lowstock[i].quantity%></td>
+                <td><%- lowstock[i].project_name%></td>
                 <td>
                   
-                  <a href="/updateproduct/<%- data[i].id %>" class="btn btn-info btn-block">Update</a>
+                  <a href="/updateproduct/<%- lowstock[i].id %>" class="btn btn-info btn-block">Update</a>
                 </td>
               </tr>
             <% } %>
