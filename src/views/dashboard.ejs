@@ -1,78 +1,86 @@
 <%- include('./partials/_headers'); %>
 
-    <div class="container-fluid">
-        <div class="row mt-5">
+<div class="container-fluid">
+  <div class="row mt-5">
+    <div class="col-md-6">
+      <table class="table table-bordered table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>N°</th>
+            <th>Name</th>
+            <th>Model</th>
+            <th>About</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if (data) { %> <% for (let i=0; i < data.length; i++) { %>
+          <tr>
+            <td><%- (i + 1) %></td>
+            <td><%- data[i].name%></td>
+            <td><%- data[i].model%></td>
+            <td><%- data[i].description%></td>
 
-            <div class="col-md-6">
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>N°</th>
-                            <th>Name</th>
-                            <th>Model</th>
-                            <th>About</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (data) { %>
-                            <% for (let i=0; i < data.length; i++) { %>
-                                <tr>
-                                    <td><%- (i + 1) %></td>
-                                    <td><%- data[i].name%></td>
-                                    <td><%- data[i].model%></td>
-                                    <td><%- data[i].description%></td>
+            <td>
+              <a
+                href="/deleteproduct/<%- data[i].id %>"
+                class="btn btn-danger btn-block"
+                >Delete</a
+              >
 
-                                    <td>
-                                        <a href="/deleteproduct/<%- data[i].id %>"
-                                            class="btn btn-danger btn-block">Delete</a>
-
-                                        <a href="/updateproduct/<%- data[i].id %>"
-                                            class="btn btn-info btn-block">Update</a>
-                                    </td>
-                                </tr>
-                                <% } %>
-                                    <% } %>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="col-md-6">
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>N°</th>
-                            <th>Name</th>
-                            <th>Model</th>
-                            <th>About</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <% if (data) { %>
-                            <% for (let i=0; i < data.length; i++) { %>
-                                <tr>
-                                    <td><%- (i + 1) %></td>
-                                    <td><%- data[i].name%></td>
-                                    <td><%- data[i].model%></td>
-                                    <td><%- data[i].description%></td>
-
-                                    <td>
-                                        <a href="/deleteproduct/<%- data[i].id %>"
-                                            class="btn btn-danger btn-block">Delete</a>
-
-                                        <a href="/updateproduct/<%- data[i].id %>"
-                                            class="btn btn-info btn-block">Update</a>
-                                    </td>
-                                </tr>
-                                <% } %>
-                                    <% } %>
-                    </tbody>
-                </table>
-
-            </div>
-        </div>
-
+              <a
+                href="/updateproduct/<%- data[i].id %>"
+                class="btn btn-info btn-block"
+                >Update</a
+              >
+            </td>
+          </tr>
+          <% } %> <% } %>
+        </tbody>
+      </table>
+      <a
+                  href="/productslist"
+                  class="btn btn-primary btn-block"
+                  >See More</a>
     </div>
 
-    <%- include('./partials/_footer'); %>
+    <div class="col-md-6">
+      <div style="overflow-y: auto">
+        <table class="table table-bordered table-hover">
+          <thead class="thead-dark">
+            <tr>
+              <th>N°</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (dataprojects) { %> <% for (let i=0; i < dataprojects.length;
+            i++) { %>
+            <tr>
+              <td><%- (i + 1) %></td>
+              <td><%- dataprojects[i].name%></td>
+              <td><%- dataprojects[i].description%></td>
+              <td>
+                <a
+                  href="/updateproject/<%- dataprojects[i].id %>"
+                  class="btn btn-info btn-block"
+                  >Update</a
+                >
+              </td>
+              
+            </tr>
+            <% } %> <% } %>
+            
+          </tbody>
+        </table>
+        <a
+                  href="/projectslist"
+                  class="btn btn-primary btn-block"
+                  >See More</a>
+      </div>
+    </div>
+  </div>
+</div>
+  <%- include('./partials/_footer'); %>

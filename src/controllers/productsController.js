@@ -6,8 +6,9 @@ controller.list = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
       `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
-from products prd 
-inner join projects pj on (pj.id=prd.project_id);`,
+      from products prd 
+      inner join projects pj on (pj.id=prd.project_id)
+      order by id desc limit 0, 4;`,
       (err, products) => {
         if (err) {
           res.json(err);
@@ -35,15 +36,16 @@ controller.dashboard = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
       `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
-from products prd 
-inner join projects pj on (pj.id=prd.project_id);`,
+      from products prd 
+      inner join projects pj on (pj.id=prd.project_id)
+      order by id desc limit 0, 4;`,
       (err, products) => {
         if (err) {
           res.json(err);
         }
 
         conn.query(
-          "SELECT id, name, description FROM projects",
+          "SELECT id, name, description FROM projects order by id desc limit 0, 4",
           (err, projects) => {
             if (err) {
               res.json(err);
@@ -71,34 +73,30 @@ inner join projects pj on (pj.id=prd.project_id);`,
           res.json(err);
         }
 
-            res.render("productslist", {
-              data: products,
-
-            });
-          }
-        );
+        res.render("productslist", {
+          data: products,
+        });
       }
     );
-  };
+  });
+};
 
 controller.projectslist = (req, res) => {
   req.getConnection((err, conn) => {
+    conn.query(
+      "SELECT id, name, description FROM projects",
+      (err, projects) => {
+        if (err) {
+          res.json(err);
+        }
 
-        conn.query(
-          "SELECT id, name, description FROM projects",
-          (err, projects) => {
-            if (err) {
-              res.json(err);
-            }
-
-            res.render("projectslist", {
-              dataprojects: projects,
-            });
-          }
-        );
+        res.render("projectslist", {
+          dataprojects: projects,
+        });
       }
     );
-  };
+  });
+};
 
 controller.projects = (req, res) => {
   req.getConnection((err, conn) => {
@@ -159,21 +157,21 @@ controller.addproject = (req, res) => {
   let name = data.name;
   let description = data.description;
 
-    req.getConnection((err, conn) => {
-      conn.query(
-        `insert into projects (name, description) values (?, ?)`,
-        [name, description],
-        (err, products) => {
-          if (err) {
-            console.error("ERROR:", err);
-            res.json(err);
-          }
-          res.redirect("/projectslist");
-          console.log(products);
+  req.getConnection((err, conn) => {
+    conn.query(
+      `insert into projects (name, description) values (?, ?)`,
+      [name, description],
+      (err, products) => {
+        if (err) {
+          console.error("ERROR:", err);
+          res.json(err);
         }
-      );
-    });
-  };
+        res.redirect("/projectslist");
+        console.log(products);
+      }
+    );
+  });
+};
 
 controller.editproduct = (req, res) => {
   const { id } = req.params;
@@ -190,7 +188,6 @@ controller.editproduct = (req, res) => {
               res.json(err);
             }
             res.render("products_edit", {
-
               data: product[0],
               dataprojects: projects,
             });
@@ -204,21 +201,21 @@ controller.editproduct = (req, res) => {
 controller.editproject = (req, res) => {
   const { id } = req.params;
   req.getConnection((err, conn) => {
-        conn.query(
-          "SELECT id, name, description FROM projects WHERE id = ?", [id],
-          (err, projects) => {
-            console.log(projects[0].name);
-            if (err) {
-              res.json(err);
-            }
-            res.render("projects_edit", {
-              dataprojects: projects[0],
-            });
-          }
-        );
+    conn.query(
+      "SELECT id, name, description FROM projects WHERE id = ?",
+      [id],
+      (err, projects) => {
+        console.log(projects[0].name);
+        if (err) {
+          res.json(err);
+        }
+        res.render("projects_edit", {
+          dataprojects: projects[0],
+        });
       }
     );
-  }
+  });
+};
 
 controller.updateproduct = (req, res) => {
   const { id } = req.params;
@@ -232,7 +229,7 @@ controller.updateproduct = (req, res) => {
         res.redirect("/");
       }
     );
-  })
+  });
 };
 
 controller.updateproject = (req, res) => {
