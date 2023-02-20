@@ -51,10 +51,30 @@ controller.dashboard = (req, res) => {
               res.json(err);
             }
 
-            res.render("dashboard", {
-              data: products,
-              dataprojects: projects,
-            });
+            conn.query(
+              "SELECT id, name, quantity, model FROM products where quantity > 0 and quantity < 3",
+              (err, lowstock) => {
+                if (err) {
+                  res.json(err);
+                }
+
+                conn.query(
+                  "SELECT id, name, quantity FROM products where quantity = 0",
+                  (err, outofstock) => {
+                    if (err) {
+                      res.json(err);
+                    }
+
+                    res.render("dashboard", {
+                      data: products,
+                      dataprojects: projects,
+                      lowstock: lowstock,
+                      outofstock: outofstock,
+                    });
+                  }
+                );
+              }
+            );
           }
         );
       }
@@ -66,8 +86,8 @@ controller.productslist = (req, res) => {
   req.getConnection((err, conn) => {
     conn.query(
       `select prd.id, prd.name, prd.model, prd.description, prd.price, prd.date, prd.store, prd.quantity, prd.project_id, pj.id as project_id, pj.name as project_name, pj.description as project_description
-from products prd 
-inner join projects pj on (pj.id=prd.project_id);`,
+      from products prd 
+      inner join projects pj on (pj.id=prd.project_id);`,
       (err, products) => {
         if (err) {
           res.json(err);
