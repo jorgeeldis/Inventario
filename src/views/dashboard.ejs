@@ -2,6 +2,19 @@
 
 <div class="container-fluid">
 
+  <div class="row mt-5">
+        <div class="col-md-6">
+            <h3>Projects by year:</h3>
+             <div><canvas id="acquisitions"></canvas></div>
+            
+        </div>
+        <div class="col-md-6">
+            <h3>Components vs Projects:</h3>
+            <div><canvas id="componentsused"></canvas></div>
+            
+        </div>
+    </div>
+
     <div class="row mt-5">
         <div class="col-md-6">
             <h3>Products low on stock:</h3>
@@ -126,6 +139,7 @@
             <tr>
               <th>N°</th>
               <th>Name</th>
+              <th>Date</th>
               <th>Description</th>
               <th>Action</th>
             </tr>
@@ -136,6 +150,7 @@
             <tr>
               <td><%- (i + 1) %></td>
               <td><%- dataprojects[i].name%></td>
+              <td><%- dataprojects[i].date.toISOString().split('T')[0]%></td>
               <td><%- dataprojects[i].description%></td>
               <td>
                 <a

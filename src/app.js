@@ -36,7 +36,10 @@ app.use(express.urlencoded({extended: false}));
 app.use("/", productsRoutes);
 
 // Static Files
-app.use(express.static(path.join(__dirname, "public")));
+//app.use(express.static(path.join(__dirname, "public")));
+app.use("/", express.static(path.join(__dirname, "public")));
+
+console.log(__dirname);
 
 app.listen(app.get("port"), () => {
   console.log("Server on port 3000");

@@ -6,10 +6,11 @@
       <div style="overflow-y: auto">
         <h3>All projects:</h3>
         <table class="table table-bordered table-hover">
-          <thead class="thead-dark">
+          <thead class="thead-dark"> 
             <tr>
               <th>N°</th>
               <th>Name</th>
+              <th>Date</th>
               <th>Description</th>
               <th>Action</th>
             </tr>
@@ -20,6 +21,7 @@
             <tr>
               <td><%- (i + 1) %></td>
               <td><%- dataprojects[i].name%></td>
+              <td><%- dataprojects[i].date.toISOString().split('T')[0] %></td>
               <td><%- dataprojects[i].description%></td>
               <td>
                 <a
