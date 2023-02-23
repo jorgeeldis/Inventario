@@ -4,12 +4,13 @@
 
   <div class="row mt-5">
         <div class="col-md-6">
-            <h3>Projects by year:</h3>
+            <h3>Projects made by year:</h3>
+            
              <div><canvas id="acquisitions"></canvas></div>
             
         </div>
         <div class="col-md-6">
-            <h3>Components vs Projects:</h3>
+            <h3>Products used by year:</h3>
             <div><canvas id="componentsused"></canvas></div>
             
         </div>
@@ -174,3 +175,49 @@
   </div>
 </div>
   <%- include('./partials/_footer'); %>
+<script>
+    (async function () {
+
+  var data = '<%- JSON.stringify(dataprojectschart); %>';
+  data= JSON.parse(data);
+  console.log(data);
+
+  new Chart(document.getElementById("acquisitions"), {
+    type: "bar",
+    data: {
+      labels: data.map((row) => row.year_proyect),
+      datasets: [
+        {
+          label: "Projects made by year",
+          data: data.map((row) => row.count_proyect),
+          backgroundColor: "#001f3f",
+        },
+      ],
+    },
+  });
+})();
+  </script>
+
+  <script>
+    (async function () {
+
+  var data1 = '<%- JSON.stringify(dataproductschart); %>';
+  data1 = JSON.parse(data1);
+  console.log(data1);
+
+  new Chart(document.getElementById("componentsused"), {
+    type: "bar",
+    data: {
+      labels: data1.map((row) => row.year_product),
+      datasets: [
+        {
+          label: "Products used by year",
+          data: data1.map((row) => row.count_product),
+          backgroundColor: "#3D9970",
+        },
+      ],
+    },
+  });
+})();
+  </script>
+  

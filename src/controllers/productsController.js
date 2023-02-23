@@ -52,25 +52,45 @@ controller.dashboard = (req, res) => {
             }
 
             conn.query(
-              "SELECT id, name, quantity, model FROM products where quantity > 0 and quantity < 3 order by id desc limit 0, 4",
-              (err, lowstock) => {
+              "SELECT count(id) as count_proyect, year(date) as year_proyect FROM projects group by year(date);",
+              (err, projectschart) => {
+                console.log(projectschart);
+                if (err) {
+                  res.json(err);
+                }
+
+              conn.query(
+              "SELECT count(id) as count_product, year(date) as year_product FROM products group by year(date);",
+              (err, productschart) => {
+                console.log(productschart);
                 if (err) {
                   res.json(err);
                 }
 
                 conn.query(
-                  "SELECT id, name, quantity, model FROM products where quantity = 0 order by id desc limit 0, 4",
-                  (err, outofstock) => {
+                  "SELECT id, name, quantity, model FROM products where quantity > 0 and quantity < 3 order by id desc limit 0, 4",
+                  (err, lowstock) => {
                     if (err) {
                       res.json(err);
                     }
 
-                    res.render("dashboard", {
-                      data: products,
-                      dataprojects: projects,
-                      lowstock: lowstock,
-                      outofstock: outofstock,
-                    });
+                    conn.query(
+                      "SELECT id, name, quantity, model FROM products where quantity = 0 order by id desc limit 0, 4",
+                      (err, outofstock) => {
+                        if (err) {
+                          res.json(err);
+                        }
+
+                        res.render("dashboard", {
+                          data: products,
+                          dataprojects: projects,
+                          lowstock: lowstock,
+                          outofstock: outofstock,
+                          dataprojectschart: projectschart,
+                          dataproductschart: productschart,
+                        });
+                      }
+                    );
                   }
                 );
               }
@@ -80,6 +100,7 @@ controller.dashboard = (req, res) => {
       }
     );
   });
+})
 };
 
 controller.productslist = (req, res) => {
